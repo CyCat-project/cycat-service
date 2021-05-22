@@ -13,8 +13,20 @@ Each UUID inserted in CyCAT has at least an entry in the backend with the follow
 
 |value|type|
 |-----|-----------------------------------------|
-|`1   | Publisher                               |
+| 1   | Publisher                               |
 | 2   | Project                                 |
+
+# UUID hash table
+
+Each UUID inserted might have a corresponding hash table
+
+- `<type>:<UUID>` -> keys associated with the hash table type
+
+# type sorted set
+
+Each type got a sorted set (with a score of one) to easily paginate over the various types
+
+- `t:<type>` -> `<UUID>`
 
 # Statistics
 
