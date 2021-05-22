@@ -1,7 +1,8 @@
 version = "0.1"
-from flask import Flask, url_for, send_from_directory
+from flask import Flask, url_for, send_from_directory, render_template, make_response
 from flask_restx import Resource, Api
 import os
+import uuid
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
@@ -12,6 +13,18 @@ import redis
 
 
 r = redis.Redis(host='127.0.0.1', port='3033')
+
+# genericc lib - TODO: move to cycat Python library
+
+def _validate_uuid(value=None):
+    if uuid is None:
+        return False
+    try:
+        _val = uuid.UUID(value)
+    except ValueError:
+        return False
+    return True
+
 @api.route('/info')
 @api.doc(description="Get information about the CyCAT backend services including status, overall statistics and version.")
 class info(Resource):
@@ -31,6 +44,14 @@ class generateUUID(Resource):
 class favicon(Resource):
     def get(self):
         return send_from_directory(os.path.join(app.root_path, 'static'),'favicon.ico',mimetype='image/vnd.microsoft.icon')
+
+@api.route('/lookup/<string:uuid>')
+class lookup(Resource):
+    def get(self, uuid):
+        if _validate_uuid(value=uuid):
+            return ("{}".format(uuid))
+        else:
+            return {'message': 'UUID is incorrect'}, 400
 
 if __name__ == '__main__':
     app.run()
