@@ -29,7 +29,11 @@ def _validate_uuid(value=None):
 @api.doc(description="Get information about the CyCAT backend services including status, overall statistics and version.")
 class info(Resource):
     def get(self):
-        return "CyCAT backend {}".format(version)
+        info = {}
+        info['publishers'] = r.zcard('t:1')
+        info['projects'] = r.zcard('t:2')
+        info['version'] = version
+        return info
 
 @api.route('/generate/uuid')
 @api.doc(description="Generate an UUID version 4 RFC4122-compliant.")
