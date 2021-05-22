@@ -1,6 +1,7 @@
 version = "0.1"
-from flask import Flask
+from flask import Flask, url_for, send_from_directory
 from flask_restx import Resource, Api
+import os
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
@@ -25,6 +26,11 @@ class generateUUID(Resource):
         k = "stats:f:{}".format(inspect.stack()[0][3].lower())
         r.incr(k, 1)
         return "{}".format(genuuid)
+
+@api.route('/favicon.ico', doc=False)
+class favicon(Resource):
+    def get(self):
+        return send_from_directory(os.path.join(app.root_path, 'static'),'favicon.ico',mimetype='image/vnd.microsoft.icon')
 
 if __name__ == '__main__':
     app.run()
