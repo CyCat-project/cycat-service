@@ -48,6 +48,7 @@ class generateUUID(Resource):
 class favicon(Resource):
     def get(self):
         return send_from_directory(os.path.join(app.root_path, 'static'),'favicon.ico',mimetype='image/vnd.microsoft.icon')
+
 @api.route('/list/publisher/<int:start>/<int:end>', defaults={"start": 0, "end": 10})
 class list_publisher(Resource):
     def get(self, start=0, end=10):
@@ -81,6 +82,29 @@ class lookup(Resource):
             return (h)
         else:
             return {'message': 'UUID is incorrect'}, 400
+
+@api.route('/parent/<string:uuid>')
+class parent(Resource):
+    def get(self, uuid):
+        if _validate_uuid(value=uuid):
+            if not r.exists("parent:{}".format(uuid)):
+                return{'message': 'Non existing parent UUID'}, 404
+            s = r.smembers("parent:{}".format(uuid))
+            return(list(s))
+        else:
+            return {'message': 'UUID is incorrect'}, 400
+
+@api.route('/child/<string:uuid>')
+class parent(Resource):
+    def get(self, uuid):
+        if _validate_uuid(value=uuid):
+            if not r.exists("child:{}".format(uuid)):
+                return{'message': 'Non existing child UUID'}, 404
+            s = r.smembers("child:{}".format(uuid))
+            return(list(s))
+        else:
+            return {'message': 'UUID is incorrect'}, 400
+
 
 if __name__ == '__main__':
     app.run()
