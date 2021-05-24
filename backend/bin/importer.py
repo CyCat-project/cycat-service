@@ -5,6 +5,7 @@ import os
 parser = argparse.ArgumentParser(description='JSON importer for CyCAT backend')
 parser.add_argument('-f', '--file', help='JSON file to import')
 parser.add_argument('-t', '--type', help='CyCAT backend type', default=1)
+parser.add_argument('-p', '--parent', help='Parent reference to add for the JSON imported', default=None)
 args = parser.parse_args()
 r = redis.Redis(host='127.0.0.1', port='3033')
 
@@ -32,5 +33,8 @@ elif int(args.type) == 2:
     k = "t:{}".format(args.type)
     r.zadd(k, d, nx=False)
     r.hmset("{}:{}".format(args.type, uuid), record)
+    if args.parent is not None:
+        r.sadd("parent:{}".format(uuid), args.parent)
+        r.sadd("child:{}".format(args.parent), uuid)
 else:
     pass
