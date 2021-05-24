@@ -3,7 +3,7 @@
 The data structure is based on a Redis-compatible data store. [kvrocks](https://github.com/bitleak/kvrocks) is the Redis-compatible data store used for CyCAT
 but any compatible Redis data store can be used.
 
-# UUID k/v
+# u:<UUID>
 
 Each UUID inserted in CyCAT has at least an entry in the backend with the following format:
 
@@ -15,18 +15,31 @@ Each UUID inserted in CyCAT has at least an entry in the backend with the follow
 |-----|-----------------------------------------|
 | 1   | Publisher                               |
 | 2   | Project                                 |
+| 3   | Item                                    |
 
-# UUID hash table
+# <TYPE INT>:<UUID> (hash table)
 
 Each UUID inserted might have a corresponding hash table
 
 - `<type>:<UUID>` -> keys associated with the hash table type
 
-# type sorted set
+# t:<TYPE INT> (sorted set)
 
 Each type got a sorted set (with a score of one) to easily paginate over the various types
 
 - `t:<type>` -> `<UUID>`
+
+# parent:<UUID> (set)
+
+The parent(s) UUID of the UUID.
+
+- `parent:<UUID>` -> {`UUID`, `UUID`}
+
+# child:<UUID> (set)
+
+The child(ren) UUID of the UUID.
+
+- `child:<UUID>` -> {`UUID`, `UUID`}
 
 # Statistics
 
