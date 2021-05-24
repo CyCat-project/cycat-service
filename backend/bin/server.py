@@ -48,6 +48,26 @@ class generateUUID(Resource):
 class favicon(Resource):
     def get(self):
         return send_from_directory(os.path.join(app.root_path, 'static'),'favicon.ico',mimetype='image/vnd.microsoft.icon')
+@api.route('/list/publisher/<int:start>/<int:end>', defaults={"start": 0, "end": 10})
+class list_publisher(Resource):
+    def get(self, start=0, end=10):
+        uuids = r.zrange('t:1', start, end)
+        publishers = []
+        for uuidvalue in uuids:
+            _publisher = r.hgetall('1:{}'.format(uuidvalue))
+            publishers.append(_publisher)
+        return publishers
+
+@api.route('/list/project/<int:start>/<int:end>', defaults={"start": 0, "end": 10})
+class list_project(Resource):
+    def get(self, start=0, end=10):
+        uuids = r.zrange('t:2', start, end)
+        publishers = []
+        for uuidvalue in uuids:
+            _publisher = r.hgetall('2:{}'.format(uuidvalue))
+            publishers.append(_publisher)
+        return publishers
+
 
 @api.route('/lookup/<string:uuid>')
 class lookup(Resource):
