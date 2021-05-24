@@ -10,7 +10,7 @@ api = Api(app, version=version, title='CyCAT.org API', description='CyCAT - The 
 import uuid
 import inspect
 import redis
-
+cycat_type = {"1": "Publisher", "2": "Project"}
 
 r = redis.Redis(host='127.0.0.1', port='3033', decode_responses=True)
 
@@ -77,6 +77,7 @@ class lookup(Resource):
                 return{'message': 'Non existing UUID'}, 404
             t = r.get("u:{}".format(uuid))
             h = r.hgetall("{}:{}".format(t, uuid))
+            h['_cycat_type'] = cycat_type[str(t)]
             return (h)
         else:
             return {'message': 'UUID is incorrect'}, 400
