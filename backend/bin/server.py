@@ -1,4 +1,4 @@
-version = "0.1"
+version = "0.2"
 from flask import Flask, url_for, send_from_directory, render_template, make_response
 from flask_restx import Resource, Api
 import os
