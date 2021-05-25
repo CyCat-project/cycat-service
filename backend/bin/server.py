@@ -49,9 +49,9 @@ class favicon(Resource):
     def get(self):
         return send_from_directory(os.path.join(app.root_path, 'static'),'favicon.ico',mimetype='image/vnd.microsoft.icon')
 
-@api.route('/list/publisher/<int:start>/<int:end>', defaults={"start": 0, "end": 10})
+@api.route('/list/publisher/<int:start>/<int:end>')
 class list_publisher(Resource):
-    def get(self, start=0, end=10):
+    def get(self, start, end):
         uuids = r.zrange('t:1', start, end)
         publishers = []
         for uuidvalue in uuids:
@@ -59,9 +59,9 @@ class list_publisher(Resource):
             publishers.append(_publisher)
         return publishers
 
-@api.route('/list/project/<int:start>/<int:end>', defaults={"start": 0, "end": 10})
+@api.route('/list/project/<int:start>/<int:end>')
 class list_project(Resource):
-    def get(self, start=0, end=10):
+    def get(self, start, end):
         uuids = r.zrange('t:2', start, end)
         publishers = []
         for uuidvalue in uuids:
