@@ -48,3 +48,10 @@ The child(ren) UUID of the UUID.
 Prefix of API statistic is `stats:f:` followed by the function name called.
 
 - `stats:f:generateuuid` : number of calls to the UUID generator API
+
+# Fixed UUIDs for UUIDv5 generation
+
+|value|description|
+|-----|-----------|
+|690b3b43-d689-481c-aa61-5351963a36f2|Used to generate the UUID of a GitHub url - concatenation key is `publisher:project`|
+|39d6e10c-dac7-40e2-8e99-1ab1cefea6f4|Used to generate CyCAT OID for publisher and project|
