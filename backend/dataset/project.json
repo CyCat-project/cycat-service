@@ -2,7 +2,7 @@
   "name": "MISP Object",
   "short-name": "misp-object",
   "description": "MISP object templates to create and compose objects from a set of atomic elements.",
-  "cycat-oid": "a9ab594b-6560-4f74-965a-952183f501d5",
+  "cycat-oid": "b48c320e-a982-5d31-a8d3-24697d776f99",
   "link": "https://www.github.com/MISP/misp-objects",
   "license": "BSD-2-Clause",
   "type": "dataformat",
