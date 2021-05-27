@@ -77,6 +77,8 @@ class lookup(Resource):
             if not r.exists("u:{}".format(uuid)):
                 return{'message': 'Non existing UUID'}, 404
             t = r.get("u:{}".format(uuid))
+            if not r.exists("{}:{}".format(t, uuid)):
+                return{'message': 'UUID allocated but no existing attributes'}, 404
             h = r.hgetall("{}:{}".format(t, uuid))
             h['_cycat_type'] = cycat_type[str(t)]
             return (h)
