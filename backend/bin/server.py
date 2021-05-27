@@ -32,6 +32,7 @@ class info(Resource):
         info = {}
         info['publishers'] = r.zcard('t:1')
         info['projects'] = r.zcard('t:2')
+        info['items'] = z.card('t:3')
         info['version'] = version
         return info
 
