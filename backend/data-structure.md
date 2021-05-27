@@ -23,6 +23,10 @@ Each UUID inserted might have a corresponding hash table
 
 - `<type>:<UUID>` -> keys associated with the hash table type
 
+## Reserved keys
+
+- `raw` - raw data for the specific item
+
 # t:<TYPE INT> (sorted set)
 
 Each type got a sorted set (with a score of one) to easily paginate over the various types
@@ -40,6 +44,18 @@ The parent(s) UUID of the UUID.
 The child(ren) UUID of the UUID.
 
 - `child:<UUID>` -> {`UUID`, `UUID`}
+
+# r:<UUID> (set)
+
+The list of relationships from a specific UUID.
+
+- `r:<UUID>` -> {`UUID`, `UUID`}
+
+# rd:<UUID>:<UUID> (set)
+
+The relationship data from an UUID tuple.
+
+- `rd:<source UUID>:<destination UUID>` -> {`value`, `value`}
 
 # Statistics
 
