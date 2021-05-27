@@ -1,4 +1,4 @@
-version = "0.2"
+version = "0.4"
 from flask import Flask, url_for, send_from_directory, render_template, make_response
 from flask_restx import Resource, Api
 import os
@@ -98,13 +98,44 @@ class parent(Resource):
             return {'message': 'UUID is incorrect'}, 400
 
 @api.route('/child/<string:uuid>')
-class parent(Resource):
+class child(Resource):
     def get(self, uuid):
         if _validate_uuid(value=uuid):
             if not r.exists("child:{}".format(uuid)):
                 return{'message': 'Non existing child UUID'}, 404
             s = r.smembers("child:{}".format(uuid))
             return(list(s))
+        else:
+            return {'message': 'UUID is incorrect'}, 400
+
+@api.route('/relationships/<string:uuid>')
+class relationships(Resource):
+    def get(self, uuid):
+        if _validate_uuid(value=uuid):
+            if not r.exists("r:{}".format(uuid)):
+                return{'message': 'Non existing relationships for UUID'}, 404
+            s = r.smembers("r:{}".format(uuid))
+            return(list(s))
+        else:
+            return {'message': 'UUID is incorrect'}, 400
+
+@api.route('/relationships/expanded/<string:uuid>')
+class relationshipsexpanded(Resource):
+    def get(self, uuid):
+        if _validate_uuid(value=uuid):
+            if not r.exists("r:{}".format(uuid)):
+                return{'message': 'Non existing relationships for UUID'}, 404
+            d = {}
+            s = r.smembers("r:{}".format(uuid))
+            rels = []
+            for rel in s:
+                data = r.smembers("rd:{}:{}".format(uuid, rel))
+                rels.append(str(data))
+            d['relationships'] = list(rels)
+            d['destinations'] = list(s)
+            d['source'] = uuid
+            print(d)
+            return(d)
         else:
             return {'message': 'UUID is incorrect'}, 400
 
