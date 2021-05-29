@@ -1,13 +1,13 @@
 version = "0.4"
-from flask import Flask, url_for, send_from_directory, render_template, make_response
-from flask_restx import Resource, Api
+from flask import Flask, url_for, send_from_directory, render_template, make_response, request
+from flask_restx import Resource, Api, reqparse
 import os
 import uuid
+import json
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 api = Api(app, version=version, title='CyCAT.org API', description='CyCAT - The Cybersecurity Resource Catalogue public API services.', doc='/', license='CC-BY', contact='info@cycat.org', ordered=True)
-import uuid
 import inspect
 import redis
 cycat_type = {"1": "Publisher", "2": "Project", "3": "Item"}
@@ -173,6 +173,14 @@ class namespacefinduuid(Resource):
         k = "id:{}:{}".format(namespace, namespaceid)
         s = r.smembers(k)
         return(list(s))
+
+@api.route('/propose')
+@api.doc(description="Propose new resource to CyCAT.")
+class propose(Resource):
+    def post(self):
+        x = request.get_json(force=True)
+        r.rpush("proposal", json.dumps(x))
+        return {'message': 'Proposal submitted'}, 200
 
 if __name__ == '__main__':
     app.run()
