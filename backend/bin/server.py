@@ -33,6 +33,7 @@ class info(Resource):
         info['publishers'] = r.zcard('t:1')
         info['projects'] = r.zcard('t:2')
         info['items'] = r.zcard('t:3')
+        info['namespaces'] = r.scard('idnamespace')
         info['version'] = version
         return info
 
@@ -139,6 +140,32 @@ class relationshipsexpanded(Resource):
         else:
             return {'message': 'UUID is incorrect'}, 400
 
+@api.route('/namespace/getall')
+@api.doc(description="List all known namespaces.")
+class namespacegetall(Resource):
+    def get(self):
+        s = r.smembers("idnamespace")
+        return(list(s))
+
+@api.route('/namespace/getid/<string:namespace>')
+@api.doc(description="Get all ID from a given namespace.")
+class namespacegetid(Resource):
+    def get(self, namespace=None):
+        if namespace is None:
+            return None
+        k = "idk:{}".format(namespace)
+        s = r.smembers(k)
+        return(list(s))
+
+@api.route('/namespace/finduuid/<string:namespace>/<string:namespaceid>')
+@api.doc(description="Get all known UUID for a given namespace id.")
+class namespacefinduuid(Resource):
+    def get(self, namespace=None, namespaceid=None):
+        if namespaceid is None or namespace is None:
+            return None
+        k = "id:{}:{}".format(namespace, namespaceid)
+        s = r.smembers(k)
+        return(list(s))
 
 if __name__ == '__main__':
     app.run()

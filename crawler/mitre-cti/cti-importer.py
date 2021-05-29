@@ -48,6 +48,7 @@ def addexternalid(uuidsource=None, namespace=None, namespaceid=None):
     rdb.sadd(k, uuidsource)
     k = "idk:{}".format(namespace)
     rdb.sadd(k, namespaceid)
+    rdb.sadd("idnamespace", namespace)
 
 models = ['enterprise-attack', 'mobile-attack', 'ics-attack', 'pre-attack']
 
