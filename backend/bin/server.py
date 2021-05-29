@@ -6,7 +6,7 @@ import uuid
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
-api = Api(app, version=version, title='CyCAT.org API', description='CyCAT - The Cybersecurity Resource Catalogue public API services.', doc='/', ordered=True)
+api = Api(app, version=version, title='CyCAT.org API', description='CyCAT - The Cybersecurity Resource Catalogue public API services.', doc='/', license='CC-BY', contact='info@cycat.org', ordered=True)
 import uuid
 import inspect
 import redis
@@ -52,6 +52,7 @@ class favicon(Resource):
         return send_from_directory(os.path.join(app.root_path, 'static'),'favicon.ico',mimetype='image/vnd.microsoft.icon')
 
 @api.route('/list/publisher/<int:start>/<int:end>')
+@api.doc(description="List publishers registered in CyCAT by pagination (start,end).")
 class list_publisher(Resource):
     def get(self, start, end):
         uuids = r.zrange('t:1', start, end)
@@ -62,6 +63,7 @@ class list_publisher(Resource):
         return publishers
 
 @api.route('/list/project/<int:start>/<int:end>')
+@api.doc(description="List projects registered in CyCAT by pagination (start,end).")
 class list_project(Resource):
     def get(self, start, end):
         uuids = r.zrange('t:2', start, end)
@@ -73,6 +75,7 @@ class list_project(Resource):
 
 
 @api.route('/lookup/<string:uuid>')
+@api.doc(description="Lookup UUID registered in CyCAT.")
 class lookup(Resource):
     def get(self, uuid):
         if _validate_uuid(value=uuid):
@@ -88,6 +91,7 @@ class lookup(Resource):
             return {'message': 'UUID is incorrect'}, 400
 
 @api.route('/parent/<string:uuid>')
+@api.doc(description="Get parent UUID(s) from a specified project or item UUID.")
 class parent(Resource):
     def get(self, uuid):
         if _validate_uuid(value=uuid):
@@ -99,6 +103,7 @@ class parent(Resource):
             return {'message': 'UUID is incorrect'}, 400
 
 @api.route('/child/<string:uuid>')
+@api.doc(description="Get child UUID(s) from a specified project or publisher UUID.")
 class child(Resource):
     def get(self, uuid):
         if _validate_uuid(value=uuid):
@@ -110,6 +115,7 @@ class child(Resource):
             return {'message': 'UUID is incorrect'}, 400
 
 @api.route('/relationships/<string:uuid>')
+@api.doc(description="Get relationship(s) UUID from a specified UUID.")
 class relationships(Resource):
     def get(self, uuid):
         if _validate_uuid(value=uuid):
@@ -121,6 +127,7 @@ class relationships(Resource):
             return {'message': 'UUID is incorrect'}, 400
 
 @api.route('/relationships/expanded/<string:uuid>')
+@api.doc(description="Get relationship(s) UUID from a specified UUID including the relationships meta information.")
 class relationshipsexpanded(Resource):
     def get(self, uuid):
         if _validate_uuid(value=uuid):
