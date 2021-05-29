@@ -1,8 +1,12 @@
-# CyCAT.org services
+# CyCAT.org API services
 
 ## Back-end
 
-- [backend](./backend) - software to run your own CyCAT.org API service
+- [back-end](./backend) - software to run your own CyCAT.org API service. This software runs the official API for CyCAT.org available at [api.cycat.org](https://api.cycat.org/).
+
+## Documentation
+
+- CyCAT - The Cybersecurity Resource Catalogue public API services document is available as [OpenAPI 2.0 swagger file](https://api.cycat.org/swagger.json).
 
 ## Crawler
 
