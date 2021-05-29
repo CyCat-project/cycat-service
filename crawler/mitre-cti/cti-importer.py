@@ -28,6 +28,10 @@ def additem(uuidref=None, data=None, project=None):
     if project is not None:
         rdb.sadd("parent:{}".format(uuidref), project)
         rdb.sadd("child:{}".format(project), uuidref)
+    if 'capec' in data:
+        addexternalid(uuidsource=uuidref, namespace='capec', namespaceid=data['capec'])
+    if 'mitre-attack-id' in data:
+        addexternalid(uuidsource=uuidref, namespace='mitre-attack-id', namespaceid=data['mitre-attack-id'])
     return True
 
 def addrelationship(uuidsource=None, uuiddest=None, data=None):
@@ -36,6 +40,14 @@ def addrelationship(uuidsource=None, uuiddest=None, data=None):
     rdb.sadd("r:{}".format(uuidsource), uuiddest)
     rdb.sadd("rd:{}:{}".format(uuidsource, uuiddest), data)
     return True
+
+def addexternalid(uuidsource=None, namespace=None, namespaceid=None):
+    if uuidsource is None or namespace is None or namespaceid is None:
+        return None
+    k = "id:{}:{}".format(namespace.lower(), namespaceid)
+    rdb.sadd(k, uuidsource)
+    k = "idk:{}".format(namespace)
+    rdb.sadd(k, namespaceid)
 
 models = ['enterprise-attack', 'mobile-attack', 'ics-attack', 'pre-attack']
 
@@ -53,6 +65,12 @@ for model in models:
                 data['mitre-cti:description'] = obj['description']
             if 'name' in obj:
                 data['mitre-cti:name'] = obj['name']
+            if 'external_references' in obj:
+                for ref in obj['external_references']:
+                    if ref['source_name'] == 'mitre-attack':
+                        data['mitre-attack-id'] = ref['external_id']
+                    if ref['source_name'] == 'capec':
+                        data['capec'] = ref['external_id']
             additem(uuidref=obj_id, project=projectuuid, data=data)
         elif obj_type == 'relationship':
             (source_type, source_id) = obj['source_ref'].split('--')

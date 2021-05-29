@@ -57,6 +57,18 @@ The relationship data from an UUID tuple.
 
 - `rd:<source UUID>:<destination UUID>` -> {`value`, `value`}
 
+# id:<NAMESPACE>:<NAMESPACE_ID> (set)
+
+A namespace id referenced in an UUID
+
+- `id:<NAMESPACE>:<NAMESPACE_ID>` -> {`UUID`, `UUID`}
+
+# idk:<NAMESPACE> (set)
+
+Known id per namespace
+
+- `idk:<NAMESPACE>' -> {`NAMESPACE_ID`, `NAMESPACE_ID`}
+
 # Statistics
 
 ## Automatic API statistics
