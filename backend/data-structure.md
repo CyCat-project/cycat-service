@@ -17,7 +17,7 @@ Each UUID inserted in CyCAT has at least an entry in the backend with the follow
 | 2   | Project                                 |
 | 3   | Item                                    |
 
-# <TYPE INT>:<UUID> (hash table)
+# <TYPE INT>:<UUID> (hash table) metadata
 
 Each UUID inserted might have a corresponding hash table
 
@@ -26,6 +26,16 @@ Each UUID inserted might have a corresponding hash table
 ## Reserved keys
 
 - `raw` - raw data for the specific item
+- `cycat-oid` - UUID of the publisher or project CyCAT
+- `link` - URL reference of the publisher, project or item
+- `timestamp` - Last update of the UUID metadata
+- `short-name`
+- `name`
+- `maintainer` - maintainer of the metadata (e.g. cycat)
+- `description`
+- `_cycat_type`
+  
+Other field should be prefixed by the origin of the metadata with a format `<namespace>:<fieldname>`.
 
 # t:<TYPE INT> (sorted set)
 
