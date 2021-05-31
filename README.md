@@ -12,6 +12,7 @@
 
 - [GitHub](./crawler/github/)
 - [MISP Feeds](./crawler/misp-feeds/)
+- [MISP Galaxy](./crawler/misp-galaxy/)
 - [MITRE CTI - ATT&CK](./crawler/mitre-cti)
 - [Sigma](./crawler/sigma/)
 
