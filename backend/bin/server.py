@@ -151,7 +151,6 @@ class relationshipsexpanded(Resource):
             d['relationships'] = list(rels)
             d['destinations'] = list(s)
             d['source'] = uuid
-            print(d)
             return(d)
         else:
             return {'message': 'UUID is incorrect'}, 400
