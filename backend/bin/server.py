@@ -14,7 +14,16 @@ cycat_type = {"1": "Publisher", "2": "Project", "3": "Item"}
 
 r = redis.Redis(host='127.0.0.1', port='3033', decode_responses=True)
 
-# genericc lib - TODO: move to cycat Python library
+# full-text part (/search API)
+
+from whoosh import index, qparser
+from whoosh.fields import Schema, TEXT, ID
+from whoosh.qparser import QueryParser
+indexpath = "../index"
+ix = index.open_dir(indexpath)
+
+
+# generic lib - TODO: move to cycat Python library
 
 def _validate_uuid(value=None):
     if uuid is None:
@@ -182,5 +191,18 @@ class propose(Resource):
         r.rpush("proposal", json.dumps(x))
         return {'message': 'Proposal submitted'}, 200
 
+@api.route('/search/<string:searchquery>')
+@api.doc(description="Full-text search in CyCAT and return matching UUID.")
+class search(Resource):
+    def get(self, searchquery=None):
+        if searchquery is None:
+            return None
+        with ix.searcher() as searcher:
+            query = QueryParser("content", ix.schema).parse(searchquery)
+            results = searcher.search(query, limit=None)
+            uuids = []
+            for result in results:
+                uuids.append(result['path'])
+        return(uuids)
 if __name__ == '__main__':
     app.run()
