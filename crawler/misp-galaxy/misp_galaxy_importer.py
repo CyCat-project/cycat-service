@@ -59,6 +59,8 @@ for element in cluster['values']:
         data['description'] = element['description']
     data['misp-galaxy:value'] = element['value']
     data['raw'] = json.dumps(element)
+    data['link'] = args.url
+    data['_cycat_crawler'] = __file__
     if 'related' in element:
         for rel in element['related']:
             addrelationship(uuidsource=data['uuid'], uuiddest=rel['dest-uuid'], data=json.dumps(rel))
