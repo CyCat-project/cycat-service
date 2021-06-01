@@ -9,7 +9,7 @@
 - CyCAT - The Cybersecurity Resource Catalogue public API services document is available as [OpenAPI 2.0 swagger file](https://api.cycat.org/swagger.json).
 - [PDF](https://www.cycat.org/assets/docs/api-documentation-3.pdf) of the CyCAT API.
 
-## API Usage Example
+## API Usage and Examples
 
 ### Search by namespace topic
 
@@ -126,7 +126,7 @@ curl -X 'GET' \
   -H 'accept: application/json'
 ~~~
 
-Will return all the UUIDs matching the keyword queried. Then the returned UUIDs can be used to find relationships and corresponding items.
+Will return all the UUIDs matching the keyword queried (in this case `APT33`). Then the returned UUIDs can be used to find relationships and corresponding items.
 
 ~~~
 [
@@ -159,7 +159,7 @@ Will return all the UUIDs matching the keyword queried. Then the returned UUIDs 
 ]
 ~~~
 
-## Crawler
+## Crawlers available to feed the CyCAT back-end
 
 - [GitHub](./crawler/github/)
 - [MISP Feeds](./crawler/misp-feeds/)
