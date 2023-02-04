@@ -1,5 +1,4 @@
 #!/bin/sh
-git clone --recursive https://github.com/bitleak/kvrocks.git
-cd kvrocks
-git checkout 2.0
-make -j4
+git clone https://github.com/apache/incubator-kvrocks.git
+cd incubator-kvrocks
+./x.py build
