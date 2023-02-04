@@ -48,7 +48,7 @@ for ctype in cycat_type:
                 content = content + toindex['title']
             if 'raw' in toindex:
                 content = toindex['raw']
-            if 'description' in toindex:
+            if 'description' in toindex and toindex['description'] is not None:
                 title = title + toindex['description']
                 content = content + toindex['description']
             if 'mitre-cti:description' in toindex and toindex['mitre-cti:description'] is not None:
