@@ -60,7 +60,7 @@ for root, dirs, files in os.walk("{}./rules".format(args.path)):
             continue
         sigmaf = os.path.join(root, f)
         with open(sigmaf, 'r') as stream:
-            rules = yaml.load_all(stream)
+            rules = yaml.safe_load_all(stream)
             print("File :{}".format(sigmaf))
             for x in rules:
                 data = {}
